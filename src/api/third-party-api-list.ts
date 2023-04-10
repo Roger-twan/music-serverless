@@ -1,5 +1,5 @@
 const THIRD_PARTY_API = {
-  netEaseSearch: 'https://interface.music.163.com/eapi/cloudsearch/pc'
+  netEaseSearchSongs: 'https://music.163.com/weapi/cloudsearch/get/web'
 }
 
 export default THIRD_PARTY_API;
