@@ -1,4 +1,4 @@
-import { Router } from 'itty-router'
+import { Router, IRequest } from 'itty-router'
 import searchSong from './api/song/search'
 
 const router = Router()
@@ -8,5 +8,5 @@ router
 	.all('*', () => new Response('404', { status: 404 }))
 
 export default {
-	fetch: router.handle,
-};
+  fetch: (request: IRequest, env: Env, content: any) => router.handle(request, env, content)
+}

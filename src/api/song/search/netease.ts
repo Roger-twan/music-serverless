@@ -1,6 +1,7 @@
 import { IRequest } from 'itty-router'
 import THIRD_PARTY_API from '../../third-party-api-list'
 import neteaseReqBody from '../../../util/netease-request-body'
+import neteaseDataParser from '../../../util/netease-data-parser'
 
 type NeteaseSongInfo = {
   id: number,
@@ -41,6 +42,10 @@ export default async (request: IRequest): Promise<Response> => {
     result: []
   }
 
+  if (resJson.abroad) {
+    resJson.result = neteaseDataParser(resJson.result)
+  }
+
   if (resJson.result && resJson.result.songs && resJson.result.songs.length) {
     resJson.result.songs.forEach((song: any) => {
       result.result?.push({
@@ -51,6 +56,10 @@ export default async (request: IRequest): Promise<Response> => {
         source: 'netease'
       })
     })
+  } else {
+    console.log('----- error: Search netease song -----')
+    console.log(resJson)
+    console.log('----- end -----')
   }
 
   return new Response(JSON.stringify(result), {
