@@ -1,5 +1,5 @@
 import { Router } from 'itty-router'
-import searchSong from './api/song'
+import searchSong from './api/song/search'
 
 const router = Router()
 

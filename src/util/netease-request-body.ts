@@ -31,14 +31,19 @@ const rsaEncrypt = (text: string): string => {
   return RSA.encryptedString(keyPair, text)
 }
 
-export default (param: Object): NetEaseRequestCrypto => {
+const netEaseCrypto = (params: Object): NetEaseRequestCrypto => {
   const presetKey: string = '0CoJUm6Qyw8W8jud'
   const secretKey: string = generateRandomString(16)
-  const aesEncrypted: string = aesEncrypt(JSON.stringify(param), presetKey)
+  const aesEncrypted: string = aesEncrypt(JSON.stringify(params), presetKey)
   const result = {
     params: aesEncrypt(aesEncrypted, secretKey),
     encSecKey: rsaEncrypt(secretKey)
   }
 
   return result
+}
+
+export default (params: Object): string => {
+  const encryptedParams = netEaseCrypto(params)
+  return new URLSearchParams(encryptedParams).toString()
 }

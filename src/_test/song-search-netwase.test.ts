@@ -2,7 +2,7 @@ import { unstable_dev } from 'wrangler';
 import type { UnstableDevWorker } from 'wrangler';
 import { describe, expect, it, beforeAll, afterAll } from 'vitest';
 
-describe('Worker', () => {
+describe('Search netease song', () => {
 	let worker: UnstableDevWorker;
 
 	beforeAll(async () => {
@@ -16,10 +16,10 @@ describe('Worker', () => {
 	});
 
 	it('should return 404', async () => {
-		const resp = await worker.fetch('/');
+		const resp = await worker.fetch('/song/search?source=netease&keywords=amani');
 		if (resp) {
-			const text = await resp.text();
-			expect(text).toMatchInlineSnapshot(`"404"`);
+			const text = JSON.stringify(await resp.json());
+			expect(text).toContain('Amani');
 		}
 	});
 });
