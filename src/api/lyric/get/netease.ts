@@ -17,7 +17,8 @@ export default async (request: IRequest): Promise<Response> => {
 
   const params = {
     id: id,
-    c: [{id: id}]
+    lv: -1,
+    tv: -1
   }
 
   const res = await fetch(THIRD_PARTY_API.neteaseGetLyric, {
@@ -54,5 +55,3 @@ export default async (request: IRequest): Promise<Response> => {
     },
   })
 }
-
-// "{"id":"109545","c":"[{\"id\":\"109545\"}]","csrf_token":"9a6cf093193b1b77788d1b0397899801"}"
