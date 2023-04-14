@@ -1,9 +1,9 @@
 import { IRequest } from 'itty-router'
 import THIRD_PARTY_API from '../../third-party-api-list'
-import neteaseReqBody from '../../../util/netease-request-body'
-import neteaseDataParser from '../../../util/netease-data-parser'
+import neteaseReqBody from '../../../lib/netease-request-body'
+import neteaseDataParser from '../../../lib/netease-data-parser'
 
-type NeteaseSongInfo = {
+type NeteaseSong = {
   id: number,
   name: string,
   artist: string,
@@ -12,7 +12,7 @@ type NeteaseSongInfo = {
 }
 
 type NeteaseSearchResult = {
-  result: Array<NeteaseSongInfo> | undefined
+  result: Array<NeteaseSong> | undefined
 }
 
 export default async (request: IRequest): Promise<Response> => {
@@ -30,7 +30,7 @@ export default async (request: IRequest): Promise<Response> => {
     offset: 5 * (page > 1 ? page : 0)
   }
 
-  const res = await fetch(THIRD_PARTY_API.netEaseSearchSongs, {
+  const res = await fetch(THIRD_PARTY_API.neteaseSearchSongs, {
     method: 'POST',
     body: neteaseReqBody(params),
     headers: {
@@ -57,7 +57,10 @@ export default async (request: IRequest): Promise<Response> => {
       })
     })
   } else {
-    console.log('----- error: Search netease song -----')
+    console.log('----- error: search netease song -----')
+    console.log('request params:')
+    console.log(params)
+    console.log('response:')
     console.log(resJson)
     console.log('----- end -----')
   }

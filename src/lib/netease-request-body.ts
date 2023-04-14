@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js'
-import RSA from '../lib/rsa'
+import RSA from './rsa'
 
 type NetEaseRequestCrypto = {
   params: string
