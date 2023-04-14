@@ -1,7 +1,6 @@
 import { IRequest } from 'itty-router'
 import THIRD_PARTY_API from '../../third-party-api-list'
 import neteaseReqBody from '../../../lib/netease-request-body'
-import neteaseDataParser from '../../../lib/netease-data-parser'
 
 type NeteaseLyric = {
   lyric: string,
@@ -32,10 +31,6 @@ export default async (request: IRequest): Promise<Response> => {
   let result: NeteaseLyric = {
     lyric: '',
     source: 'netease'
-  }
-
-  if (resJson.abroad) {
-    resJson.result = neteaseDataParser(resJson.result)
   }
 
   if (resJson.lrc && resJson.lrc.lyric) {
