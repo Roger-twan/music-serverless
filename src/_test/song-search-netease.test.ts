@@ -15,7 +15,7 @@ describe('Search netease song', () => {
 		await worker.stop();
 	});
 
-	it('should return 404', async () => {
+	it('should contain Amani', async () => {
 		const resp = await worker.fetch('/song/search?source=netease&keywords=amani');
 		if (resp) {
 			const text = JSON.stringify(await resp.json());
