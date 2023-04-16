@@ -8,6 +8,7 @@ type NeteaseSong = {
   name: string,
   artist: string,
   duration: number,
+  url: string
   source: 'netease'
 }
 
@@ -53,6 +54,7 @@ export default async (request: IRequest): Promise<Response> => {
         name: song.name,
         artist: song.ar[0].name,
         duration: song.dt,
+        url: 'http://music.163.com/song/media/outer/url?id=' + song.id + '.mp3',
         source: 'netease'
       })
     })
