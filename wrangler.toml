@@ -1,3 +1,8 @@
 name = "music"
 main = "src/index.ts"
 compatibility_date = "2023-04-09"
+
+[[ d1_databases ]]
+binding = "DB"
+database_name = "music-database"
+database_id = "1cb36e60-13e7-4b86-a143-e78ebfcd0dc8"
