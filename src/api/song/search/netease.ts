@@ -2,6 +2,7 @@ import { IRequest } from 'itty-router'
 import THIRD_PARTY_API from '../../third-party-api-list'
 import neteaseReqBody from '../../../lib/netease-request-body'
 import neteaseDataParser from '../../../lib/netease-data-parser'
+import { SEARCH_LIMIT } from '.'
 
 type NeteaseSong = {
   id: number,
@@ -18,17 +19,21 @@ type NeteaseSearchResult = {
 
 export default async (request: IRequest): Promise<Response> => {
   const keywords: string = request.query.keywords as string
-  const page: number = request.query.page ? Number(request.params.page) : 0
+  const page: number = request.query.page ? Number(request.query.page) - 1 : 0
 
   if (!keywords) {
     return new Response('keywords is required')
   }
 
+  if (page < 0) {
+    return new Response('invalid page')
+  }
+
   const params = {
     s: keywords,
     type: 1,
-    limit: 6,
-    offset: 5 * (page > 1 ? page : 0)
+    limit: SEARCH_LIMIT,
+    offset: SEARCH_LIMIT * page
   }
 
   const res = await fetch(THIRD_PARTY_API.neteaseSearchSongs, {

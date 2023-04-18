@@ -1,7 +1,10 @@
 import { IRequest } from 'itty-router'
 import fetchNeteaseSongs from './netease'
+import fetchStorageSongs from './storage'
 
-export default async (request: IRequest): Promise<Response> => {
+export const SEARCH_LIMIT: number = 6
+
+export default async (request: IRequest, env: Env): Promise<Response> => {
   const keywords = request.query.keywords
   const source: string = request.query.source as string || 'storage'
 
@@ -11,7 +14,7 @@ export default async (request: IRequest): Promise<Response> => {
 
   switch (source) {
     case 'storage':
-      break
+      return fetchStorageSongs(request, env)
     case 'netease':
       return fetchNeteaseSongs(request)
     case 'qq':

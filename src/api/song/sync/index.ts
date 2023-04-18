@@ -9,7 +9,7 @@ export default async (request: IRequest, env: Env): Promise<Response> => {
     source
   } = request.params
 
-  const result = await env.DB.prepare(
+  const result: D1Result = await env.DB.prepare(
     `INSERT INTO songs (name, artist, duration, source, origin_id) VALUES (${name || null}, ${artist || null}, ${duration || null}, ${source || null}, ${id || null})`
   ).all()
 
