@@ -6,3 +6,10 @@ compatibility_date = "2023-04-09"
 binding = "DB"
 database_name = "music-database"
 database_id = "1cb36e60-13e7-4b86-a143-e78ebfcd0dc8"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "music"
+preview_bucket_name = "music-dev"
+
+account_id = "be4e5010331d528180a016ac5f51d538"

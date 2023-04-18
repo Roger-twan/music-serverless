@@ -13,5 +13,5 @@ export default async (request: IRequest, env: Env): Promise<Response> => {
     `INSERT INTO songs (name, artist, duration, source, origin_id) VALUES (${name || null}, ${artist || null}, ${duration || null}, ${source || null}, ${id || null})`
   ).all()
 
-  return Response.json(result.success);
+  return Response.json(result.success)
 }
