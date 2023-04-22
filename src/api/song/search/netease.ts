@@ -1,7 +1,5 @@
 import { IRequest } from 'itty-router'
 import THIRD_PARTY_API from '../../third-party-api-list'
-import neteaseReqBody from '../../../lib/netease-request-body'
-import neteaseDataParser from '../../../lib/netease-data-parser'
 import { SEARCH_LIMIT } from '.'
 
 type NeteaseSong = {
@@ -19,47 +17,39 @@ type NeteaseSearchResult = {
 
 export default async (request: IRequest): Promise<Response> => {
   const keywords: string = request.query.keywords as string
-  const page: number = request.query.page ? Number(request.query.page) - 1 : 0
+  const page: string = request.query.page ? request.query.page.toString() : '1'
 
   if (!keywords) {
     return new Response('keywords is required')
   }
 
-  if (page < 0) {
+  if (Number(page) < 1) {
     return new Response('invalid page')
   }
 
   const params = {
-    s: keywords,
-    type: 1,
-    limit: SEARCH_LIMIT,
-    offset: SEARCH_LIMIT * page
+    keyword: keywords,
+    limit: SEARCH_LIMIT.toString(),
+    page: page,
+    platform: 'netease',
   }
 
-  const res = await fetch(THIRD_PARTY_API.neteaseSearchSongs, {
-    method: 'POST',
-    body: neteaseReqBody(params),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
+  const res = await fetch(THIRD_PARTY_API.neteaseSearchSongs + new URLSearchParams(params), {
+    method: 'GET'
   })
   const resJson: any = await res.json()
   let result: NeteaseSearchResult = {
     result: []
   }
 
-  if (resJson.abroad) {
-    resJson.result = neteaseDataParser(resJson.result)
-  }
-
-  if (resJson.result && resJson.result.songs && resJson.result.songs.length) {
-    resJson.result.songs.forEach((song: any) => {
+  if (resJson.success && resJson.data && resJson.data.songs && resJson.data.songs.length) {
+    resJson.data.songs.forEach((song: any) => {
       result.result?.push({
-        id: song.id,
+        id: song.originalId,
         name: song.name,
-        artist: song.ar[0].name,
-        duration: song.dt,
-        url: 'http://music.163.com/song/media/outer/url?id=' + song.id + '.mp3',
+        artist: song.artists[0].name,
+        duration: 0,
+        url: 'http://music.163.com/song/media/outer/url?id=' + song.originalId + '.mp3',
         source: 'netease'
       })
     })
