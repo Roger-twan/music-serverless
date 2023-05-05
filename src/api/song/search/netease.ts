@@ -37,7 +37,6 @@ export default async (request: IRequest): Promise<Response> => {
         id: song.originalId,
         name: song.name,
         artist: song.artists[0].name,
-        duration: 0,
         url: `https://music.163.com/song/media/outer/url?id=${song.originalId}.mp3`,
         source: 'netease',
       })

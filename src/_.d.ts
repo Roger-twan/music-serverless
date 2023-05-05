@@ -17,7 +17,7 @@ type NeteaseSong = {
   id: number,
   name: string,
   artist: string,
-  duration: number,
+  duration?: number,
   url: string,
   source: 'netease'
   lyric?: string,
