@@ -1,16 +1,6 @@
 import { IRequest } from 'itty-router'
 import { SEARCH_LIMIT } from '.'
 
-type StorageSong = {
-  id: number,
-  name: string,
-  artist: string,
-  duration: number,
-  lyric: string,
-  key: string
-  source: 'storage'
-}
-
 type StorageSearchResult = {
   result: Array<StorageSong> | undefined
 }
@@ -38,7 +28,11 @@ export default async (request: IRequest, env: Env): Promise<Response> => {
       LIMIT ${SEARCH_LIMIT} OFFSET ${SEARCH_LIMIT * page};
     `
   ).all()
-  result.result = data.results as StorageSong[]
+
+  for (const item of data.results as StorageSong[]) {
+    item.source = 'storage'
+    result.result!.push(item)
+  }
 
   return new Response(JSON.stringify(result), {
     headers: {

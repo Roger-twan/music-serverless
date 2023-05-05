@@ -2,15 +2,6 @@ import { IRequest } from 'itty-router'
 import THIRD_PARTY_API from '../../third-party-api-list'
 import { SEARCH_LIMIT } from '.'
 
-type NeteaseSong = {
-  id: number,
-  name: string,
-  artist: string,
-  duration: number,
-  url: string
-  source: 'netease'
-}
-
 type NeteaseSearchResult = {
   result: Array<NeteaseSong> | undefined
 }
@@ -34,9 +25,7 @@ export default async (request: IRequest): Promise<Response> => {
     platform: 'netease',
   }
 
-  const res = await fetch(THIRD_PARTY_API.neteaseSearchSongs + new URLSearchParams(params), {
-    method: 'GET'
-  })
+  const res = await fetch(THIRD_PARTY_API.neteaseSearchSongs + new URLSearchParams(params))
   const resJson: any = await res.json()
   let result: NeteaseSearchResult = {
     result: []
@@ -49,8 +38,8 @@ export default async (request: IRequest): Promise<Response> => {
         name: song.name,
         artist: song.artists[0].name,
         duration: 0,
-        url: 'https://music.163.com/song/media/outer/url?id=' + song.originalId + '.mp3',
-        source: 'netease'
+        url: `https://music.163.com/song/media/outer/url?id=${song.originalId}.mp3`,
+        source: 'netease',
       })
     })
   } else {
