@@ -24,6 +24,7 @@ export default async (request: IRequest, env: Env): Promise<Response> => {
     artist: songInfo.artist,
     duration: songInfo.duration,
     lyric: songInfo.lyric,
+    url: generateUrl(songInfo.name, songInfo.artist),
     origin_id: songInfo.origin_id,
     source: 'storage',
     like: null
@@ -42,7 +43,7 @@ const insertData = async (songInfo: NeteaseSong, env: Env) => {
   .bind(
     songInfo.name,
     songInfo.artist,
-    `https://music.twan.life/song/get?key=${songInfo.artist}_${songInfo.name}.mp3`,
+    generateUrl(songInfo.name, songInfo.artist),
     songInfo.source,
     songInfo.duration,
     songInfo.lyric,
@@ -51,4 +52,8 @@ const insertData = async (songInfo: NeteaseSong, env: Env) => {
   .run()
 
   return result.meta.last_row_id;
+}
+
+const generateUrl = (name: string, artist: string) => {
+  return `https://music.twan.life/song/get?key=${artist}_${name}.mp3`;
 }
