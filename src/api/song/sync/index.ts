@@ -1,11 +1,12 @@
 import { IRequest } from 'itty-router'
 import uploadSong from './upload'
+import getStorageSong from '../../../utils/get-storage-song'
 
 export default async (request: IRequest, env: Env): Promise<Response> => {
   const songInfo = await request.json()
 
   // check if exist
-  const queriedSongInfo = await getSongInfo(songInfo.id, env)
+  const queriedSongInfo = await getStorageSong(songInfo.id, env)
   if (queriedSongInfo !== null) {
     return new Response(JSON.stringify(queriedSongInfo), {
       headers: {
@@ -24,31 +25,18 @@ export default async (request: IRequest, env: Env): Promise<Response> => {
     duration: songInfo.duration,
     lyric: songInfo.lyric,
     origin_id: songInfo.origin_id,
-    source: 'storage'
+    source: 'storage',
+    like: null
   }
 
   return Response.json(result)
 }
 
-const getSongInfo = async (id: number, env: Env) => {
-  const data: D1Result = await env.DB.prepare(
-    `
-      SELECT *
-      FROM songs
-      WHERE origin_id = ?
-    `
-  )
-  .bind(id)
-  .first()
-
-  return data;
-}
-
 const insertData = async (songInfo: NeteaseSong, env: Env) => {
   const result: D1Result = await env.DB.prepare(
     `
-    INSERT INTO songs (name, artist, url, source, duration, lyric, origin_id)
-    VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)
+      INSERT INTO songs (name, artist, url, source, duration, lyric, origin_id)
+      VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)
     `
   )
   .bind(
