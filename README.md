@@ -1,4 +1,4 @@
-# API Serverless for Music App
+# Serverless APIs for Music App
 
 ![worker](https://img.shields.io/badge/Typescript-blue)
 ![worker](https://img.shields.io/badge/Cloudflare-Workers-green)
