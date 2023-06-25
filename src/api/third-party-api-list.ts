@@ -3,7 +3,7 @@ const TON_ZHON_PREFIX = 'https://music-api.tonzhon.com'
 
 const THIRD_PARTY_API = {
   neteaseSearchSongs: TON_ZHON_PREFIX + '/search?',
-  neteaseGetSongSource: TON_ZHON_PREFIX + '/song_source/netease/',
+  neteaseGetSongSource: TON_ZHON_PREFIX + '/song_file/',
   neteaseGetLyric: NETEASE_PREFIX + '/song/lyric',
 }
 
