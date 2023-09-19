@@ -25,7 +25,7 @@ export default async (request: IRequest): Promise<Response> => {
     platform: 'netease',
   }
 
-  const res = await fetch(THIRD_PARTY_API.neteaseSearchSongs + params.keyword + '?limit=' + params.limit)
+  const res = await fetch(THIRD_PARTY_API.neteaseSearchSongs + encodeURIComponent(params.keyword) + '?limit=' + params.limit)
   const resJson: any = await res.json()
   let result: NeteaseSearchResult = {
     result: []
